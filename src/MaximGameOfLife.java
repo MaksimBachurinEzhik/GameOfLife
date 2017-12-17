@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -41,7 +43,7 @@ public class MaximGameOfLife implements GameOfLife{
             }
         }
         boolean[][] lastStep = field;
-        int delej = 2;
+        int delej = 3;
         List<MyThread> threads = new ArrayList<>();
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < delej; j++) {
@@ -51,18 +53,18 @@ public class MaximGameOfLife implements GameOfLife{
                         myThread = new MyThread(field, field1,
                                 n,
                                 j * n / delej,
-                                (j + 1) * n / delej + (j == (delej - 1) ? n % delej : 0),
+                                (j + 1) * n / delej + (j + 1 == (delej - 1) ? n % delej : 0),
                                 k * n / delej,
-                                (k + 1) * n / delej + (k == (delej - 1) ? n % delej : 0));
+                                (k + 1) * n / delej + (k + 1 == (delej - 1) ? n % delej : 0));
                         lastStep = field1;
                     }
                     else {
                         myThread = new MyThread(field1, field,
                                 n,
                                 j * n / delej,
-                                (j + 1) * n / delej + (j == (delej - 1) ? n % delej : 0),
+                                (j + 1) * n / delej + (j + 1 == (delej - 1) ? n % delej : 0),
                                 k * n / delej,
-                                (k + 1) * n / delej + (k == (delej - 1) ? n % delej : 0));
+                                (k + 1) * n / delej + (k + 1 == (delej - 1) ? n % delej : 0));
                         lastStep = field;
                     }
                     threads.add(myThread);
@@ -89,6 +91,13 @@ public class MaximGameOfLife implements GameOfLife{
                 }
             }
             result.add(String.valueOf(str));
+        }
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File("actual.txt")))) {
+            for (String str : result) {
+                writer.write(str + "\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         return result;
     }

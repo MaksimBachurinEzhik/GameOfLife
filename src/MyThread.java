@@ -20,8 +20,8 @@ public class MyThread extends Thread {
     public void run() {
         for (int i = x_start; i < x_end; i++) {
             for (int j = y_start; j < y_end; j++) {
-                int[] arrX = { i - 1 >= 0 ? i - 1 : 0, i, i + 1 < n ? i + 1 : n - 1};
-                int[] arrY = { j - 1 >= 0 ? j - 1 : 0, j, j + 1 < n ? j + 1 : n - 1};
+                int[] arrX = { i == 0 ? n - 1 : i - 1, i, i == n - 1 ? 0 : i + 1};
+                int[] arrY = { j == 0 ? n - 1 : j - 1, j, j == n - 1 ? 0 : j + 1};
                 //System.out.println(x_start + " " + x_end + " " + y_start + " " + y_end);
                 int live = 0;
                 for (int x : arrX) {
